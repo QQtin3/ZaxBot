@@ -23,7 +23,7 @@ const EMBED_AUTHOR = {
 	url: "https://zaxpeaks.fr",
 	icon_url: "https://files.zaxpeaks.fr/files/img/logo.png",
 };
-const EMBED_TITLE = "SiirZax est en live! <:scrown:1560748161667170364>";
+const EMBED_TITLE = "SiirZax est en live! <:scrown:1560792166593462382>";
 const EMBED_COLOR = 16716856;
 const BUTTON_LABEL = "Regarder le stream";
 
@@ -43,7 +43,7 @@ const personalBestText = (personalBest: PersonalBest | null): string => {
 	if (personalBest === null) return "Pas encore de PB existant pour cette catégorie !";
 
 	const suffix = personalBest.place === 1 ? "er" : "ème";
-	return `Actuellement **${personalBest.place}${suffix}** avec un **${formatSpeedrunTime(personalBest.seconds)}** <:flag:1560748120290238604>`;
+	return `Actuellement **${personalBest.place}${suffix}** avec un **${formatSpeedrunTime(personalBest.seconds)}** <:flag:1560792135391903915>`;
 };
 
 const worldRecordText = (worldRecord: number | null): string =>
