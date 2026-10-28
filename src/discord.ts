@@ -1,6 +1,7 @@
 import type { Env } from "./env";
 import { formatSpeedrunTime } from "./format-time";
 import type { PersonalBest } from "./speedrun";
+import type { VerifiedRun } from "./speedrun-runs";
 
 export interface Announcement {
 	channelUrl: string;
@@ -96,6 +97,21 @@ export const postAnnouncement = async (env: Env, announcement: Announcement): Pr
 	url.searchParams.set("with_components", "true");
 
 	const response = await fetch(url, { method: "POST", body: form });
+	if (!response.ok) {
+		throw new Error(`Discord webhook failed with status ${response.status}: ${await response.text()}`);
+	}
+};
+
+const RUN_VALIDATED_MESSAGE = "🎉 Nouvelle run validée sur speedrun.com !";
+
+export const postValidatedRunNotification = async (env: Env, run: VerifiedRun): Promise<void> => {
+	const content = `${RUN_VALIDATED_MESSAGE}\n🎮[**${run.gameName}** - **${run.categoryName}**](${run.weblink})\n⏱️ **${formatSpeedrunTime(run.seconds)}**`;
+
+	const response = await fetch(env.SPEEDRUN_RUN_WEBHOOK_URL, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ content }),
+	});
 	if (!response.ok) {
 		throw new Error(`Discord webhook failed with status ${response.status}: ${await response.text()}`);
 	}
