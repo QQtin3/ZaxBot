@@ -1,0 +1,118 @@
+/* Requires page-theme.css to be loaded before this file. */
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	padding: var(--spacing-6) var(--spacing-4);
+	background: var(--color-background);
+	color: var(--color-text);
+	font-family: var(--font-family);
+	font-size: var(--font-size-base);
+	line-height: 1.5;
+}
+
+.card {
+	width: 100%;
+	max-width: var(--page-max-width);
+	height: fit-content;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-4);
+	padding: var(--spacing-6);
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+.card__title {
+	margin: 0;
+	font-size: var(--font-size-title);
+}
+
+.card__subtitle {
+	margin: 0;
+	color: var(--color-text-muted);
+	font-size: var(--font-size-small);
+}
+
+.notice {
+	margin: 0;
+	padding: var(--spacing-3) var(--spacing-4);
+	border-radius: var(--radius);
+	border: 1px solid currentColor;
+	background: var(--color-surface-raised);
+}
+
+.notice--success {
+	color: var(--color-success);
+}
+
+.notice--error {
+	color: var(--color-danger);
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-1);
+}
+
+.field__label {
+	font-size: var(--font-size-small);
+	color: var(--color-text-muted);
+}
+
+.field__input {
+	width: 100%;
+	padding: var(--spacing-3);
+	background: var(--color-surface-raised);
+	color: var(--color-text);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	font: inherit;
+}
+
+.field__input:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 1px;
+}
+
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-3);
+}
+
+.button {
+	flex: 1 1 10rem;
+	padding: var(--spacing-3) var(--spacing-4);
+	border-radius: var(--radius);
+	border: 1px solid var(--color-border);
+	background: var(--color-surface-raised);
+	color: var(--color-text);
+	font: inherit;
+	font-weight: 600;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.button--primary {
+	background: var(--color-primary);
+	border-color: var(--color-primary);
+	color: var(--color-on-primary);
+}
+
+.button--primary:hover:not(:disabled) {
+	background: var(--color-primary-hover);
+}
+
+.button:disabled {
+	opacity: 0.6;
+	cursor: wait;
+}

@@ -1,10 +1,7 @@
-# Jetbrains
 .idea
-
-# DO NOT include config file filled on Git.
-config.json
-embedconfig.json
-
-# Node files
-package-lock.json
+.wrangler
+wrangler.toml
 node_modules
+.vscode
+package-lock.json
+.dev.vars

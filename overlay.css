@@ -1,0 +1,87 @@
+/* Requires theme.css to be loaded before this file. */
+.overlay {
+	position: relative;
+	width: var(--canvas-width);
+	height: var(--canvas-height);
+	overflow: hidden;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	text-transform: uppercase;
+	background-size: cover;
+	background-position: center;
+}
+
+/* Logo, centered at the top: a single-color SVG recolored with the accent color through a mask */
+.overlay__logo {
+	position: absolute;
+	top: var(--logo-top);
+	left: 50%;
+	width: var(--logo-width);
+	height: var(--logo-height);
+	transform: translateX(-50%);
+	background-color: var(--accent-color);
+	-webkit-mask: var(--logo-url) center / contain no-repeat;
+	mask: var(--logo-url) center / contain no-repeat;
+	filter: drop-shadow(0 6px 12px var(--text-shadow-color));
+}
+
+/* Full-width translucent band holding the game name and the category */
+.overlay__band {
+	position: absolute;
+	top: var(--band-top);
+	left: 0;
+	right: 0;
+	height: var(--band-height);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--band-text-gap);
+	background: var(--band-background);
+	text-align: center;
+}
+
+.overlay__game {
+	margin: 0;
+	font-size: var(--font-size-title);
+	font-weight: var(--font-weight-black);
+	letter-spacing: var(--letter-spacing-title);
+	line-height: 1.05;
+	white-space: nowrap;
+	/* Gradient text: drop-shadow is used because text-shadow does not work with a transparent fill */
+	background: var(--title-gradient);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	filter: drop-shadow(0 6px 8px var(--text-shadow-color));
+}
+
+.overlay__category {
+	margin: 0;
+	font-size: var(--font-size-subtitle);
+	font-weight: var(--font-weight-black);
+	line-height: 1.05;
+	white-space: nowrap;
+	color: var(--accent-color);
+	text-shadow: 0 6px 10px var(--text-shadow-color);
+}
+
+/* Footer: "twitch.tv/channel - time", channel and time in the accent color */
+.overlay__footer {
+	position: absolute;
+	top: var(--footer-center-y);
+	left: 0;
+	right: 0;
+	transform: translateY(-50%);
+	margin: 0;
+	text-align: center;
+	font-size: var(--font-size-footer);
+	font-weight: var(--font-weight-black);
+	white-space: nowrap;
+	text-shadow: 0 4px 8px var(--text-shadow-color);
+}
+
+.overlay__channel,
+.overlay__time {
+	color: var(--accent-color);
+}

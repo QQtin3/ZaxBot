@@ -1,0 +1,18 @@
+# Test-only Worker: renders the overlay in the browser, without Twitch, Discord, KV or Cron.
+# Run with: npx wrangler dev -c wrangler.test.toml --remote
+name = "overlay-image-test"
+main = "src/test-image.ts"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[rules]]
+type = "Text"
+globs = ["**/*.css"]
+fallthrough = true
+
+[images]
+binding = "IMAGES"
+
+[vars]
+TWITCH_LOGIN = "siirzax"
+FONT_URL = "https://your-server.example/fonts/Montserrat-Black.ttf"

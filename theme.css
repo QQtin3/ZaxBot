@@ -1,0 +1,100 @@
+/* Theme variables: edit this file to restyle the whole overlay. */
+:root {
+	/* Canvas */
+	--canvas-width: 1920px;
+	--canvas-height: 1080px;
+
+	/* Default accent (unknown games, purple like the default logo), overridden per game below */
+	--accent-color: #9146ff;
+	--accent-color-end: #6a2fd1;
+	--logo-url: url("./logo.svg");
+
+	/* Colors */
+	--text-color: #ffffff;
+	/* Game name gradient: top color, then bottom color */
+	--title-color-start: #ffffff;
+	--title-color-end: #b9b9b9;
+	--title-gradient: linear-gradient(to bottom, var(--title-color-start) 30%, var(--title-color-end) 100%);
+	--band-background: rgba(0, 0, 0, 0.75);
+	--band-shadow-color: rgba(0, 0, 0, 0.6);
+	--text-shadow-color: rgba(0, 0, 0, 1);
+
+	/* Typography */
+	--font-family: "Montserrat", "Gotham", "Segoe UI", sans-serif;
+	--font-weight-black: 900;
+	--font-weight-bold: 800;
+	--font-size-title: 150px;
+	--font-size-subtitle: 96px;
+	--font-size-footer: 54px;
+	--letter-spacing-title: -0.01em;
+
+	/* Layout (values measured on a 1920x1080 canvas) */
+	--logo-top: 36px;
+	--logo-width: 540px;
+	--logo-height: 484px;
+	--band-top: 556px;
+	--band-height: 312px;
+	--footer-center-y: 958px;
+	--band-text-gap: 40px;
+	--footer-piece-gap: 4px;
+	--band-shadow-size: 40px;
+	--shadow-offset-y: 0px;
+	--shadow-blur: 10px;
+	/* Text shadow grows this much around the letters before the blur, so it shows on every side */
+	--shadow-spread: 2px;
+	/* Number of stacked shadow copies: 1 = light, 2-3 = more opaque, decimals allowed */
+	--shadow-strength: 1;
+}
+
+/*
+ * Per-game accent gradients (top color, then bottom color), keyed by Twitch game_id like src/games.ts.
+ * Games without a block keep the :root colors above.
+ */
+
+/* Ocarina of Time */
+[data-game="11557"] {
+	--accent-color: #1fd13a;
+	--accent-color-end: #0f9b25;
+}
+
+/* Majora's Mask */
+[data-game="12482"] {
+	--accent-color: #cc1442;
+	--accent-color-end: #8705a1;
+}
+
+/* The Wind Waker */
+[data-game="16967"] {
+	--accent-color: #1fd13a;
+	--accent-color-end: #0f9b25;
+}
+
+/* Twilight Princess */
+[data-game="17828"] {
+	--accent-color: #ff9a1f;
+	--accent-color-end: #d16a0f;
+}
+
+/* Breath of the Wild */
+[data-game="110758"] {
+	--accent-color: #3fb8ff;
+	--accent-color-end: #0050b9;
+}
+
+/* Tears of the Kingdom */
+[data-game="512998"] {
+	--accent-color: #3fb8ff;
+	--accent-color-end: #1f7fd1;
+}
+
+/* Ty the Tasmanian Tiger */
+[data-game="12086"] {
+	--accent-color: #ff9a1f;
+	--accent-color-end: #d16a0f;
+}
+
+/* Mario Kart: Double Dash!! */
+[data-game="17189"] {
+	--accent-color: #ff3b3b;
+	--accent-color-end: #c41f1f;
+}

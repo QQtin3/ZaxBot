@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Stream overlay preview</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="./theme.css" />
+		<link rel="stylesheet" href="./overlay.css" />
+	</head>
+	<body style="margin: 0">
+		<!-- data-game is the Twitch game_id (switches the accent color), background-image is the 1920x1080 source -->
+		<main class="overlay" data-game="11557" style="background-image: url('./background.jpg')">
+			<div class="overlay__logo"></div>
+
+			<section class="overlay__band">
+				<h1 class="overlay__game">Ocarina of Time</h1>
+				<p class="overlay__category">Medallions Stones Trials</p>
+			</section>
+
+			<p class="overlay__footer">
+				twitch.tv/<span class="overlay__channel">siirzax</span> -
+				<span class="overlay__time">20h</span>
+			</p>
+		</main>
+	</body>
+</html>
