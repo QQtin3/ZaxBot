@@ -286,3 +286,27 @@ export const getWorldRecord = async (category: SpeedrunCategory): Promise<number
 	const first: unknown = leaderboard.runs.find((entry: unknown) => isRecord(entry) && entry.place === 1);
 	return isRecord(first) ? readPrimaryTime(first.run) : null;
 };
+
+export interface LeaderboardStanding {
+	/** This run's place on the leaderboard, null when it is not the runner's current best there. */
+	place: number | null;
+	worldRecordSeconds: number | null;
+}
+
+/** A run's place and the current world record, read from the same leaderboard in a single request. */
+export const getLeaderboardStanding = async (category: SpeedrunCategory, runId: string): Promise<LeaderboardStanding> => {
+	const subcategoryParams = Object.fromEntries(
+		Object.entries(category.subcategories).map(([variableId, valueId]) => [`var-${variableId}`, valueId]),
+	);
+	const leaderboard = await getData(`leaderboards/${category.gameId}/category/${category.categoryId}`, subcategoryParams);
+	if (!isRecord(leaderboard) || !Array.isArray(leaderboard.runs)) return { place: null, worldRecordSeconds: null };
+
+	const entries = leaderboard.runs.filter(isRecord);
+	const worldRecordEntry = entries.find((entry) => entry.place === 1);
+	const ourEntry = entries.find((entry) => isRecord(entry.run) && entry.run.id === runId);
+
+	return {
+		place: typeof ourEntry?.place === "number" ? ourEntry.place : null,
+		worldRecordSeconds: worldRecordEntry === undefined ? null : readPrimaryTime(worldRecordEntry.run),
+	};
+};

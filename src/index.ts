@@ -2,7 +2,7 @@ import { sendAnnouncement } from "./announcement";
 import { postValidatedRunNotification } from "./discord";
 import type { Env } from "./env";
 import { handlePageRequest } from "./page/handlers";
-import { getNewlyVerifiedRuns } from "./speedrun-runs";
+import { getNewlyVerifiedRuns, getProfileId, getVerifiedRunDetails } from "./speedrun-runs";
 import { getLiveStream } from "./twitch";
 
 const LAST_ANNOUNCED_KEY = "last_announced_stream_id";
@@ -24,9 +24,12 @@ const announceValidatedRunsIfNeeded = async (env: Env): Promise<void> => {
 	const lastCheckedAt = await env.STATE.get(LAST_VERIFIED_RUN_AT_KEY);
 	const since = lastCheckedAt === null ? Date.now() : Number.parseInt(lastCheckedAt, 10);
 
-	const runs = await getNewlyVerifiedRuns(env, since);
+	const userId = await getProfileId(env);
+	const runs = await getNewlyVerifiedRuns(env, userId, since);
+
 	for (const run of runs) {
-		await postValidatedRunNotification(env, run);
+		const details = await getVerifiedRunDetails(env, userId, run);
+		await postValidatedRunNotification(env, details);
 		await env.STATE.put(LAST_VERIFIED_RUN_AT_KEY, run.verifiedAt.toString());
 	}
 };

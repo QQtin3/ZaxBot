@@ -1,7 +1,7 @@
 import type { Env } from "./env";
-import { formatSpeedrunTime } from "./format-time";
+import { formatSpeedrunDelta, formatSpeedrunTime } from "./format-time";
 import type { PersonalBest } from "./speedrun";
-import type { VerifiedRun } from "./speedrun-runs";
+import type { VerifiedRunDetails } from "./speedrun-runs";
 
 export interface Announcement {
 	channelUrl: string;
@@ -40,11 +40,12 @@ const describe = (gameName: string, category: string | null): string =>
 		? `Rejoins nous sur **${gameName}** !`
 		: `Rejoins nous sur **${gameName}** pour du speedrun **${category}**`;
 
+const ordinal = (place: number): string => `${place}${place === 1 ? "er" : "ème"}`;
+
 const personalBestText = (personalBest: PersonalBest | null): string => {
 	if (personalBest === null) return "Pas encore de PB existant pour cette catégorie !";
 
-	const suffix = personalBest.place === 1 ? "er" : "ème";
-	return `Actuellement **${personalBest.place}${suffix}** avec un **${formatSpeedrunTime(personalBest.seconds)}** <:flag:1560792135391903915>`;
+	return `Actuellement **${ordinal(personalBest.place)}** avec un **${formatSpeedrunTime(personalBest.seconds)}** <:flag:1560792135391903915>`;
 };
 
 const worldRecordText = (worldRecord: number | null): string =>
@@ -102,15 +103,54 @@ export const postAnnouncement = async (env: Env, announcement: Announcement): Pr
 	}
 };
 
-const RUN_VALIDATED_MESSAGE = "🎉 Nouvelle run validée sur speedrun.com !";
+const RUN_EMBED_TITLE = "🎉 Nouvelle run validée sur Speedrun.com !";
 
-export const postValidatedRunNotification = async (env: Env, run: VerifiedRun): Promise<void> => {
-	const content = `${RUN_VALIDATED_MESSAGE}\n🎮[**${run.gameName}** - **${run.categoryName}**](${run.weblink})\n⏱️ **${formatSpeedrunTime(run.seconds)}**`;
+const timeText = ({ run, previousBestSeconds }: VerifiedRunDetails): string => {
+	const newTime = `**${formatSpeedrunTime(run.seconds)}**`;
+	if (previousBestSeconds === null) return `${newTime} (premier temps sur cette catégorie)`;
+	if (previousBestSeconds === run.seconds) return `${newTime} (identique à l'ancien temps)`;
+
+	return `${newTime} (ancien : ${formatSpeedrunTime(previousBestSeconds)})`;
+};
+
+const deltaText = ({ run, previousBestSeconds }: VerifiedRunDetails): string => {
+	if (previousBestSeconds === null) return "N/A";
+	if (previousBestSeconds === run.seconds) return "Égalité";
+
+	return formatSpeedrunDelta(run.seconds - previousBestSeconds);
+};
+
+const placeText = (place: number | null): string =>
+	place === null ? "Non classé sur ce leaderboard" : ordinal(place);
+
+const worldRecordFieldText = (worldRecord: number | null): string =>
+	worldRecord === null ? "Aucun à ce jour" : formatSpeedrunTime(worldRecord);
+
+export const postValidatedRunNotification = async (env: Env, details: VerifiedRunDetails): Promise<void> => {
+	const { run, worldRecordSeconds } = details;
+
+	const payload = {
+		embeds: [
+			{
+				author: EMBED_AUTHOR,
+				title: RUN_EMBED_TITLE,
+				url: run.weblink,
+				description: `**${run.gameName}** - ${run.categoryName}`,
+				color: EMBED_COLOR,
+				fields: [
+					{ name: "Temps", value: timeText(details), inline: false },
+					{ name: "Delta", value: deltaText(details), inline: true },
+					{ name: "Classement", value: placeText(details.place), inline: true },
+					{ name: "Record du monde", value: worldRecordFieldText(worldRecordSeconds), inline: true },
+				],
+			},
+		],
+	};
 
 	const response = await fetch(env.SPEEDRUN_RUN_WEBHOOK_URL, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({ content }),
+		body: JSON.stringify(payload),
 	});
 	if (!response.ok) {
 		throw new Error(`Discord webhook failed with status ${response.status}: ${await response.text()}`);

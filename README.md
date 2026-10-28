@@ -4,7 +4,7 @@ A Cloudflare Worker that announces when a Twitch stream goes live, straight to a
 It generates a custom 1920x1080 announcement image on the fly, posts it through a Discord webhook, and
 also tracks the streamer's speedrun.com submissions to announce newly verified runs.
 
-Everything runs on Cloudflare — nothing has to run on a PC or a dedicated server.
+Everything runs on Cloudflare, nothing has to run on a PC or a dedicated server.
 
 ## Features
 
@@ -79,7 +79,7 @@ npx wrangler secret put SPEEDRUN_RUN_WEBHOOK_URL
 ```
 
 > **`SPEEDRUN_API_KEY` and `SPEEDRUN_RUN_WEBHOOK_URL` are optional.** Without them, the Worker does not
-> fail or log a visible error — it silently skips the verified-run check on every Cron tick, so live
+> fail or log a visible error, it silently skips the verified-run check on every Cron tick, so live
 > announcements keep working as usual. Set both secrets if you also want verified-run notifications.
 
 ### Enable the Cron trigger

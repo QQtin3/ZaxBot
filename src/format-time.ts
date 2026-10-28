@@ -26,3 +26,7 @@ export const formatSpeedrunTime = (totalSeconds: number): string => {
 
 	return hours > 0 ? `${hours}:${twoDigits(minutes)}:${twoDigits(seconds)}` : `${minutes}:${twoDigits(seconds)}`;
 };
+
+/** Formats a time difference as "-1:02" (faster) or "+1:02" (slower). */
+export const formatSpeedrunDelta = (deltaSeconds: number): string =>
+	`${deltaSeconds < 0 ? "-" : "+"}${formatSpeedrunTime(Math.abs(deltaSeconds))}`;
